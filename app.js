@@ -1,14 +1,13 @@
 import express from 'express'
 import userRoute from './routes/userRoutes.js'
-// import userRoutes from './routes/userRouter'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import bookRoute from './routes/bookRouter.js'
-// import imageRoute from './routes/imageRouter.js'
-import reviewRoute from './routes/reviewRouter.js'
+import bookRoute from './routes/bookRoutes.js'
+import reviewRoute from './routes/reviewRoutes.js'
 import connection from './config/db.js'
 import { fileURLToPath } from 'url';
 import { dirname, join } from "path";
+import { errorHandler, notFound } from './middlewares/errorMiddleware.js'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config();
@@ -27,13 +26,11 @@ app.get('/', (req , res, next) => {
     res.send("API IS RUNNING.....")
 })
 
-
-
-// app.use('/user',userRoutes)
 app.use('/user',userRoute)
 app.use('/book',bookRoute)
-// app.use('/image',imageRoute)
 app.use('/review',reviewRoute)
 app.use('/upload', express.static(join(__dirname, 'upload')));
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(port, () => console.log(`server running om port ${port}`));

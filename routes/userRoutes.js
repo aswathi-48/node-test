@@ -10,9 +10,13 @@ router.post( '/login',
 [
     check('email').not().isEmpty(),
     check('password').not().isEmpty()
-],login)
+], login)
 
-router.post('/register',register)
+router.post('/register', 
+[
+    check('email').not().isEmpty(),
+    check('password').isLength({ min: 5 })
+],register)
 
 router.use(authCheck)
 

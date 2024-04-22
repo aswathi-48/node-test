@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ReviwSchema = new mongoose.Schema({
+const ReviewSchema = new mongoose.Schema({
     
     user: {
         type:String,
@@ -20,8 +20,8 @@ const ReviwSchema = new mongoose.Schema({
         type:Number,
         require:true,
     },
-},{timestamps:true})
+},{ timestamps:true })
 
-const Review = mongoose.model("review",ReviwSchema);
+const Review = mongoose.model("review", ReviewSchema);
 
 export default Review;

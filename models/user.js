@@ -1,8 +1,5 @@
-
 import mongoose from "mongoose"
-// const uniqueValidator = require('mongoose-unique-validator');
 import uniqueValidator from 'mongoose-unique-validator'
-
 
 const UserSchema = new mongoose.Schema({
 
@@ -24,11 +21,11 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:'Client',
     },
-},{timestamps:true})
+},{ timestamps:true })
 
-UserSchema.plugin(uniqueValidator);
+UserSchema . plugin(uniqueValidator);
 
 
-const UserData = mongoose.model("userData",UserSchema)
+const UserData = mongoose.model("userData", UserSchema)
 
 export default UserData;
