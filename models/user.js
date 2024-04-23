@@ -3,25 +3,40 @@ import uniqueValidator from 'mongoose-unique-validator'
 
 const UserSchema = new mongoose.Schema({
 
-    user_name: {
+    first_name : {
         type:String,
         required:true,
     },
-    email: {
-        type:String,
-        required:true,
-        unique:true,
-       
-    },
-    password: {
+    last_name : {
         type:String,
         required:true,
     },
-    role: {
+    gender : {
+        type:String,
+        required:true,
+    },
+    email : {
+        type:String,
+        required:true,
+        unique:true,     
+    },
+    password : {
+        type:String,
+        required:true,
+    },
+    date_of_birth : {
+        type:Date,
+        required:true,
+    },
+    phone_number : {
+        type:Number,
+        required:true,
+    },
+    role : {
         type:String,
         default:'Client',
     },
-},{ timestamps:true })
+},{ timestamps : true })
 
 UserSchema . plugin(uniqueValidator);
 

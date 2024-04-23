@@ -29,7 +29,7 @@ app.get('/', (req , res, next) => {
 app.use('/user',userRoute)
 app.use('/book',bookRoute)
 app.use('/review',reviewRoute)
-app.use('/upload', express.static(join(__dirname, 'upload')));
+app.use('', express.static(join(__dirname, 'upload')));
 app.use(notFound)
 app.use(errorHandler)
 

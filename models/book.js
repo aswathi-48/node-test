@@ -4,42 +4,43 @@ const BookSchema = new mongoose.Schema({
     
     name: {
         type:String,
-        require:true,
+        required:true,
     },
     author: {
         type:String,
-        require:true,
+        required:true,
     },
     genre: {
         type:String,
-        require:true,
+        required:true,
     },
     star_rating: {
         type:Number,
-        require:true,
+        required:true,
     },
     published: {
         type:Date,
-        require:true,
+        required:true,
     },
     price: {
         type:Number,
-        require:true,
+        required:true,
     },
     language: {
         type:String,
-        require:true,
+        required:true,
     },
     image: {
         type:String,
-        require:true,
+        required:false,
+        default:null,
     },
-    isdeleted:{
+    isdeleted: {
         type:Boolean,
         default:false
     }
 
-},{ timestamps:true })
+},{ timestamps : true })
 
 const Book = mongoose.model("books", BookSchema);
 

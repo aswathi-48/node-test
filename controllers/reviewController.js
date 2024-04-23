@@ -1,7 +1,10 @@
 import { validationResult } from "express-validator"
 import HttpError from "../middlewares/httpError.js"
 import Review from '../models/review.js'
+
+//add reviews
 export const addReview = async(req, res, next) => {
+
     try{
 
         const errors = validationResult(req);
@@ -13,13 +16,13 @@ export const addReview = async(req, res, next) => {
         } else {
             const { userId } = req.userData  
             const { review, rating, book_id } = req.body 
-            const newReview = new Review({ user: userId, book: book_id, review, rating })
+            const newReview = new Review({ user : userId, book : book_id, review, rating })
             const saveReview = await newReview.save()
             
             res.status(200).json({
-                status: true,
-                message: "",
-                data: saveReview
+                status : true,
+                message : "",
+                data : saveReview
             })
         }
 

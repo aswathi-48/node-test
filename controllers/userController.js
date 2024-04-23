@@ -10,7 +10,7 @@ export const register = async (req, res, next) => {
   try {
 
     const errors = validationResult(req);
-    const { user_name, email, password ,role } = req.body 
+    const {  first_name, last_name, gender, email, password, date_of_birth, phone_number, role } = req.body 
 
     if (! errors.isEmpty()) {
       return next(new HttpError("Invalid data inputs passed, Please check your data before retry!", 422));
@@ -19,13 +19,13 @@ export const register = async (req, res, next) => {
       const saltRounds = 10;
       const salt = bcrypt.genSaltSync(saltRounds);
       const hash = bcrypt.hashSync(password, salt);
-      const newuser =  new UserData({ user_name, email, password: hash, role })
+      const newuser =  new UserData({  first_name, last_name, gender, email, password: hash, date_of_birth, phone_number, role })
       const savedUser = await newuser.save()
 
       res.status(200).json({
-        status: true,
-        message: "",
-        data: savedUser
+        status : true,
+        message : "",
+        data : savedUser
       })
     }
 
@@ -61,19 +61,17 @@ export const login = async (req, res, next) => {
                       { expiresIn: process. env. JWT_TOKEN_EXPIRY });
 
         res.status(200).json({
-          status: true,
-          message: '',
-          access_token: token
+          status : true,
+          message : '',
+          data : null,
+          access_token : token
         
         })
     }
     else {
 
-        res.status(404).json({
-          status: true,
-          message: "Oops! invalid credential!",
-          data:null
-        })   
+      return next(new HttpError("Oops! invalid credential!", 404));
+
     }
      }
     }
@@ -87,19 +85,22 @@ export const login = async (req, res, next) => {
 export const authConfirmTest = async (req, res, next) => {
 
     try {
+
       const errors = validationResult(req);
+      
       if (! errors.isEmpty()) {
 
         return next(new HttpError("Invalid data inputs passed, Please check your data before retry!", 422));
 
       } else {
+
         const { userId } = req.userData // this is from authCheck
 
          res.status(200).json({
-                status: true,
-                message: 'Successfully authorized',
-                data: userId,
-                access_token: null
+                status : true,
+                message : '',
+                data : userId,
+                access_token : null
               })
           }
     } catch (err) {

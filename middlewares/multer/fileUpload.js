@@ -1,12 +1,15 @@
 import multer from "multer";
 
+ 
 const storage = multer. diskStorage({
     destination: (req, file, cb) => {
-        cb(null,'upload/')
+        cb(null,'./upload/books/cover_images') 
     },
     filename: (req, file, cb) => {
-        // let name = file.originalname.replace(/[&\/\\#, +()$~%'":*?<>{}-]/g, '_')
-        cb(null, Date. now() + "_" + file.originalname.replace(/[&\/\\#, +()@$~%'":*?<>{}-]/g, '_'))
+        let name = file.originalname.replace(/\s\s+/g, ' ');
+        name = name.replace(/[&\/\\#, +()$~%'":=*?<>{}@-]/g, '_');
+        cb(null, Date. now() + "_" + name)
+
     }
 })
 

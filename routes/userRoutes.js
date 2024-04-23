@@ -14,8 +14,14 @@ router.post( '/login',
 
 router.post('/register', 
 [
+    check('first_name').not().isEmpty(),
+    check('last_name').not().isEmpty(),
+    check('gender').not().isEmpty(),
     check('email').not().isEmpty(),
-    check('password').isLength({ min: 5 })
+    check('password').isLength({ min: 5 }),
+    check('date_of_birth').not().isEmpty(),
+    check('phone_number').isLength({ max: 10 }),
+
 ],register)
 
 router.use(authCheck)
