@@ -179,3 +179,31 @@ export const deleteBook = async(req, res, next) => {
         return next(new HttpError("Oops! Process failed, please do contact admin", 500))
     }
 }
+
+export const viewBook = async(req, res, next) => {
+    
+    try {
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+
+            return next(new HttpError("Something went wrong...", 422))
+
+        } else {
+
+            const { bookId } =req.body
+            const bookView = await Book.findOne({ _id: bookId }) 
+
+            res.status(200).json({
+                status : true,
+                message : 'Successfully authorized',
+                data : bookView,
+                access_token : null
+            })
+        }
+    } catch (err) {
+        console.error(err)
+        return next(new HttpError("Oops! Process failed, please do contact admin", 500))
+    }
+}

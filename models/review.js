@@ -20,6 +20,11 @@ const ReviewSchema = new mongoose.Schema({
         type:Number,
         require:true,
     },
+    isdeleted: {
+        type:Boolean,
+        default:false
+    }
+
 }, { timestamps : true })
 
 const Review = mongoose.model("review", ReviewSchema);

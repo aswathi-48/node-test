@@ -1,14 +1,15 @@
 import  { Router } from "express"
-import { addBook, bookList, deleteBook, editBook} from "../controllers/bookController.js"
+import { addBook, bookList, deleteBook, editBook, viewBook} from "../controllers/bookController.js"
 import authCheck from "../middlewares/authCheck.js"
 import {upload} from '../middlewares/multer/fileUpload.js'
 import { check } from "express-validator"
 
 const router = Router()
 
-router.use(authCheck)
 
 router.post('/list/book', bookList)
+router.post('/view',viewBook)
+router.use(authCheck)
 
 router.post('/add/book',upload.single("file"),
 [
