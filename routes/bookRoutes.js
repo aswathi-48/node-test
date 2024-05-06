@@ -11,7 +11,7 @@ router.post('/list/book', bookList)
 router.post('/view',viewBook)
 router.use(authCheck)
 
-router.post('/add/book',upload.single("file"),
+router.post('/add/book',upload.single("image"),
 [
     check('name').not().isEmpty(),
     check('author').not().isEmpty(),
@@ -23,7 +23,7 @@ router.post('/add/book',upload.single("file"),
 
 ], addBook)
 
-router.patch('/edit/book/',upload.single("file"), editBook)
+router.patch('/edit/book/',upload.single("image"), editBook)
 
 router.patch('/delete/book',deleteBook)
 

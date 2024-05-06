@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const ReviewSchema = new mongoose.Schema({
     
     user: {
-        type:String,
+        ref : "userData",
+        type: mongoose.Schema.Types.ObjectId,
         require:true,
     },
     book: {

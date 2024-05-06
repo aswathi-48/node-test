@@ -63,19 +63,41 @@ export const bookList = async(req, res, next) => {
 
         } else {
 
-            let query = {}
+            // let query = {}
 
-            if ( req.query.keyword ) {   //for search
+            // if ( req.query.keyword ) {   //for search
 
-                query.$or = [
+            //     query.$or = [
 
-                    { "name": { $regex: req.query.keyword, $options : 'i' }},
-                    { "author": { $regex: req.query.keyword, $options : 'i' }}
+            //         { "name": { $regex: req.query.keyword, $options : 'i' }},
+            //         { "author": { $regex: req.query.keyword, $options : 'i' }}
 
-                ]
-            }
+            //     ]
+            // }
+
+            // searchQuery
+
+            const { q, price, star_rating } = req.body
+
+            let query={ isdeleted: false }
             
-            const listBook = await Book.find({ isdeleted : false, ...query }) 
+            if(q) {
+
+                const searchValue = q.toLowerCase()
+                query.name= { $regex: searchValue, $options : 'i' }
+            }
+
+            if(price) {
+
+                query.price = { $lte : price }
+            }
+
+            if(star_rating) {
+                   query.star_rating = star_rating 
+            }
+      
+        
+            const listBook = await Book.find( query ) 
 
             res.status(200).json({
                 status : true,
@@ -110,12 +132,12 @@ export const editBook = async (req, res, next) => {
 
             } else {
                            
-            const bookData = await Book.findOne({ _id:bookId })
+            const bookData = await Book.findOne({ _id: bookId })
 
-            const image = req.file ? process.env.BASE_URL + "/books/cover_images/" + req.file.filename : bookData.image
-
+                let image = null
             if (req.file && bookData.image !== null) {
-                
+                image =  process.env.BASE_URL + "/books/cover_images/"
+
                 const prevImgPath = bookData.image.slice(22)
                 fs.unlink(`./upload/${ prevImgPath }`, (err) => {
                     if (err) {
@@ -124,7 +146,11 @@ export const editBook = async (req, res, next) => {
                     }
                 })
             }
-            const edit = await Book.findOneAndUpdate({ _id : bookId }, { name, author, genre, star_rating, published, price, language, image }, { new: true })
+            let updateQuery = { name, author, genre, star_rating, published, price, language, image }
+            if (image) {
+                updateQuery.image = image
+            }
+            const edit = await Book.findOneAndUpdate({ _id : bookId }, updateQuery, { new: true })
 
             res.status(200).json({
                 status : true,
@@ -140,6 +166,7 @@ export const editBook = async (req, res, next) => {
         return next(new HttpError("Oops! Process failed, please do contact admin", 500))
     }
 }
+
 
 //delete book
 export const deleteBook = async(req, res, next) => {
@@ -192,7 +219,7 @@ export const viewBook = async(req, res, next) => {
 
         } else {
 
-            const { bookId } =req.body
+            const { bookId } = req.body
             const bookView = await Book.findOne({ _id: bookId }) 
 
             res.status(200).json({
@@ -207,3 +234,5 @@ export const viewBook = async(req, res, next) => {
         return next(new HttpError("Oops! Process failed, please do contact admin", 500))
     }
 }
+
+

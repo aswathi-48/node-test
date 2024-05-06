@@ -33,7 +33,7 @@ const BookSchema = new mongoose.Schema({
     image: {
         type:String,
         required:false,
-        default:null,
+        // default:null
     },
     isdeleted: {
         type:Boolean,
